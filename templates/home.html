@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+{% load leaflet_tags %}
+<html>
+<head>
+
+	<title>SEAT</title>
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+{% leaflet_js %}
+{% leaflet_css %}
+<script src= "{% static 'js/jquery.min2.js' %}"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+	function ourfunction(map, options){
+		var incidents = '{% url 'incidentsData' %}';
+		$.getJSON(incidents, function(data){
+			L.geoJson(data).addTo(map);
+
+		})
+		
+		var county = '{% url 'countyData' %}';
+		$.getJSON(county, function(data){
+			L.geoJson(data).addTo(map);
+			
+		})
+	}
+</script>
+{% leaflet_map "main" callback="ourfunction" %}
+</body>
+</html>
